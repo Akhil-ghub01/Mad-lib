@@ -9,53 +9,28 @@
   <h1>Mad Lib Generator</h1>
 
   <div class="container">
-    <label for="name-dropdown">Choose a name:</label>
-    <select id="name-dropdown">
-      <option value="">--Select a name--</option>
-      <option value="Alex">Alex</option>
-      <option value="Jamie">Jamie</option>
-      <option value="Taylor">Taylor</option>
-      <option value="Riley">Riley</option>
-    </select>
+    <h2>Enter Information for Your Mad Lib!</h2>
+    <form id="mad-lib-form">
+      <label for="country">Enter a country:</label><br />
+      <input type="text" id="country" name="country" required><br /><br />
 
-    <label for="verb-dropdown">Choose a verb:</label>
-    <select id="verb-dropdown">
-      <option value="">--Select a verb--</option>
-      <option value="dancing">dancing</option>
-      <option value="running">running</option>
-      <option value="singing">singing</option>
-      <option value="skating">skating</option>
-    </select>
+      <label for="monuments">Enter a monument:</label><br />
+      <input type="text" id="monuments" name="monuments" required><br /><br />
 
-    <label for="place-dropdown">Choose a place:</label>
-    <select id="place-dropdown">
-      <option value="">--Select a place--</option>
-      <option value="the beach">the beach</option>
-      <option value="the mall">the mall</option>
-      <option value="the mountains">the mountains</option>
-      <option value="the park">the park</option>
-    </select>
+      <label for="constructedBy">Constructed by:</label><br />
+      <input type="text" id="constructedBy" name="constructedBy" required><br /><br />
 
-    <label for="food-dropdown">Choose a food:</label>
-    <select id="food-dropdown">
-      <option value="">--Select a food--</option>
-      <option value="tacos">tacos</option>
-      <option value="burgers">burgers</option>
-      <option value="sushi">sushi</option>
-      <option value="ice cream">ice cream</option>
-    </select>
+      <label for="year">Year constructed:</label><br />
+      <input type="number" id="year" name="year" required><br /><br />
 
-    <label for="quantity">How many?</label>
-    <input type="number" id="quantity" min="1" placeholder="Enter quantity">
+      <input type="submit" value="Generate Story">
+    </form>
 
-    <div class="buttons">
-      <button id="generate-btn">Generate Story</button>
-      <button id="clear-btn">Clear</button>
-      <button id="previous-btn">Show Previous</button>
-      <button id="exit-btn">Exit</button>
+    
+    <div id="story-output" class="story-output" style="display: none;">
+      <h2>Your Mad Lib Story:</h2>
+      <p id="story"></p>
     </div>
-
-    <div id="story-result" class="story-output"></div>
   </div>
 
   <footer>
@@ -63,61 +38,32 @@
   </footer>
 
   <script>
-    document.getElementById("lastModified").textContent = document.lastModified;
+    
+    document.getElementById('lastModified').textContent = document.lastModified;
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const nameDropdown = document.getElementById("name-dropdown");
-      const verbDropdown = document.getElementById("verb-dropdown");
-      const placeDropdown = document.getElementById("place-dropdown");
-      const foodDropdown = document.getElementById("food-dropdown");
-      const storyResult = document.getElementById("story-result");
-      const generateBtn = document.getElementById("generate-btn");
-      const clearBtn = document.getElementById("clear-btn");
-      const previousBtn = document.getElementById("previous-btn");
-      const exitBtn = document.getElementById("exit-btn");
-      const quantityInput = document.getElementById("quantity");
+    
+    document.getElementById('mad-lib-form').addEventListener('submit', function (event) {
+      event.preventDefault();  
 
-      let previousStory = '';
+      
+      const country = document.getElementById('country').value;
+      const monuments = document.getElementById('monuments').value;
+      const constructedBy = document.getElementById('constructedBy').value;
+      const year = document.getElementById('year').value;
 
-      generateBtn.addEventListener("click", generateStory);
-      clearBtn.addEventListener("click", clearStory);
-      previousBtn.addEventListener("click", showPreviousStory);
-      exitBtn.addEventListener("click", exitGame);
+      
+      const story = `
+        Once upon a time, there was a traveler who loved to explore the world. One day, they visited 
+        <strong>${country}</strong> and saw the magnificent <strong>${monuments}</strong>.
+        It was built by <strong>${constructedBy}</strong> in the year <strong>${year}</strong>.
+        The traveler was so amazed by the monument that they couldn't wait to share their experience with everyone!
+      `;
 
-      function generateStory() {
-        const name = nameDropdown.value;
-        const verb = verbDropdown.value;
-        const place = placeDropdown.value;
-        const food = foodDropdown.value;
-        const quantity = quantityInput.value;
-
-        if (!name || !verb || !place || !food || !quantity) {
-          alert("Please complete all selections and quantity.");
-          return;
-        }
-
-        const story = `${name} was ${verb} at ${place} and enjoyed ${quantity} ${food}.`;
-        storyResult.textContent = story;
-        previousStory = story;
-      }
-
-      function clearStory() {
-        storyResult.textContent = "";
-        quantityInput.value = "";
-        nameDropdown.selectedIndex = 0;
-        verbDropdown.selectedIndex = 0;
-        placeDropdown.selectedIndex = 0;
-        foodDropdown.selectedIndex = 0;
-      }
-
-      function showPreviousStory() {
-        storyResult.textContent = previousStory || "No previous story yet!";
-      }
-
-      function exitGame() {
-        alert("Thanks for playing!");
-        window.close();
-      }
+      
+      const storyOutput = document.getElementById('story-output');
+      const storyParagraph = document.getElementById('story');
+      storyParagraph.innerHTML = story;
+      storyOutput.style.display = 'block';  
     });
   </script>
 </body>
